@@ -1,0 +1,102 @@
+body {
+  padding: 0; /* Marge intérieur */
+  margin: 0; /* Marge extérieur */
+  font-family: Arial, Helvetica, sans-serif; /* Police de caractère */
+}
+
+header, footer {
+  background-color: #00ffff; /* Couleur de fond */
+  text-align: center; /* Alignement du texte */
+  padding: 16px;
+}
+
+main {
+  margin: auto; /* Centrer le cadre */
+  margin-bottom: 53px; /* Marge extérieure en bas du cadre */
+  max-width: 700px; /* Largeur maximale du cadre */
+}
+
+footer {
+  font-size: 16px; /* Taille du texte */
+  position: fixed; /* Position fixe sur l'écran */
+  left: 0; /* Position à gauche */
+  right: 0; /* Position à droite */
+  bottom: 0; /* Position en bas */
+}
+
+#todo-list, .actions-container {
+  background-color: #f1f1f1;
+  border-radius: 16px; /* Bordure arrondie */
+  font-size: 17px;
+  padding: 16px;
+  margin: 16px;
+}
+
+#todo-list li {
+  list-style-type: none; /* Pas de puces */
+  padding: 4px;
+}
+
+#todo-list li:not(:last-child) {
+  border-bottom: 1px solid #ccc; /* Bordure en bas */
+}
+
+#todo-list li.checked .value {
+  text-decoration: line-through; /* Texte barré */
+  font-style: italic; /* Texte en italique */
+  color: #cd2121; /* Couleur du texte (rouge) */
+}
+
+#todo-list li span {
+  margin-left: 5px; /* Marge à gauche */
+}
+
+#todo-list li .remove-item {
+  float: right; /* Alignement à droite */
+  cursor: pointer; /* Curseur de souris */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+#todo-list li .remove-item:hover {
+  background-color: #cacaca;
+  color: #cd2121;
+}
+
+#todo-list > p {
+  text-align: center;
+}
+
+.actions-container input {
+  width: calc(100% - 24px); /* Largeur du champ de saisie */
+  display: block; /* Afficher sur une ligne */
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: none; /* Pas de bordure */
+}
+
+a:focus,
+.actions-container input:focus,
+.actions-container button:focus {
+  outline: 2px solid #00ffff; /* Couleur du contour */
+}
+
+.actions-container button {
+  background-color: #2196F3;
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+}
+
+.actions-container button:disabled {
+  opacity: 0.5; /* Opacité à 50% */
+}
+
+/*
+  En savoir plus sur le CSS :
+  https://www.w3schools.com/css/default.asp
+*/

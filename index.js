@@ -1,3 +1,5 @@
+"use strict";
+
 const todoListContainer = document.getElementById("todo-list");
 const todoInput = document.querySelector(".todo-input");
 const addItemBtn = document.querySelector(".add-item");

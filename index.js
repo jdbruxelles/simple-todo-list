@@ -1,6 +1,7 @@
 "use strict";
 
-const todoListContainer = document.getElementById("todo-list");
+const pendingListContainer = document.getElementById("pending-list");
+const completedListContainer = document.getElementById("completed-list");
 const todoInput = document.querySelector(".todo-input");
 const addItemBtn = document.querySelector(".add-item");
 const MAX_ITEMS = 10; // Nombre maximum d'items
@@ -28,21 +29,40 @@ function element(name, props) {
 }
 
 /**
+ * Déplace une tâche vers la liste des tâches terminées
+ * @param {HTMLElement} listItem L'élément li à déplacer
+ */
+function moveToCompleted(listItem) {
+  pendingListContainer.removeChild(listItem);
+  completedListContainer.appendChild(listItem);
+  showEmptyMessages();
+}
+
+/**
+ * Déplace une tâche vers la liste des tâches en attente
+ * @param {HTMLElement} listItem L'élément li à déplacer
+ */
+function moveToPending(listItem) {
+  completedListContainer.removeChild(listItem);
+  pendingListContainer.appendChild(listItem);
+  showEmptyMessages();
+}
+
+/**
  * Ajoute un item à la liste
  * @returns {void}
  */
 function addListItem() {
-  // Le nombre d'items dans la liste
-  let itemLength = todoListContainer.querySelectorAll("li").length;
+  // Le nombre d'items dans les deux listes
+  let itemLength = pendingListContainer.querySelectorAll("li").length +
+    completedListContainer.querySelectorAll("li").length;
 
   // Eviter d'ajouter une valeur vide
   if (todoInput.value === "") return;
 
-  // Eviter d'ajouter plus de MAX_ITEMS items
-  if (itemLength >= MAX_ITEMS) return;
-
-  // Supprimer le message initial (disant que la liste est vide)
-  if (itemLength === 0) todoListContainer.innerHTML = "";
+  // Eviter d'ajouter plus de MAX_ITEMS éléments
+  if (itemLength >= MAX_ITEMS)
+    return alert("Vous avez atteint le nombre maximum d'éléments.");
 
   // Créer un élément li
   const listItem = element("li");
@@ -56,6 +76,7 @@ function addListItem() {
   // Créer un élément span servant de bouton pour supprimer l'item
   const removeBtn = element("span", {
     innerHTML: "&times;", // le X pour supprimer
+    title: "Supprimer cette tâche",
     // Ajouter un événement au clic sur le bouton
     onclick: (event) => {
       // stocker le parent du bouton (le li)
@@ -64,8 +85,8 @@ function addListItem() {
       // Supprimer le li de la liste à partir du parent du parent (ul)
       parent.parentNode.removeChild(parent);
 
-      // Afficher un message si la liste est vide
-      showEmptyMessage();
+      // Afficher un message si les listes sont vides
+      showEmptyMessages();
     }
   });
 
@@ -81,8 +102,12 @@ function addListItem() {
       // selon que la case à cocher est cochée ou non
       if (event.target.checked) {
         parent.classList.add("checked");
+        // Déplacer vers la liste des tâches terminées
+        moveToCompleted(parent);
       } else {
         parent.classList.remove("checked");
+        // Déplacer vers la liste des tâches en attente
+        moveToPending(parent);
       }
     }
   }));
@@ -98,24 +123,46 @@ function addListItem() {
   // Vider l'input
   todoInput.value = "";
 
-  // Ajouter l'élément li à la liste
-  todoListContainer.appendChild(listItem);
+  // Ajouter l'élément li à la liste des tâches en attente
+  pendingListContainer.appendChild(listItem);
+
+  // Désactiver le bouton d'ajout si l'input est vide
+  addItemBtn.disabled = todoInput.value === "";
+
+  // Mettre à jour les messages d'état
+  showEmptyMessages();
 }
 
 /**
- * Affiche un message si la liste est vide
+ * Affiche des messages si les listes sont vides
+ * et gère la visibilité des sections
  * @return {void}
  */
-function showEmptyMessage() {
-  // Si la liste est vide
-  if (!todoListContainer.querySelectorAll("li").length) {
-    // Afficher un message
-    todoListContainer.innerHTML = `<p>Il n'y a aucune tâche.</p>`;
+function showEmptyMessages() {
+  const completedTasksSection = document.getElementById("completed-tasks");
+  const completedTasks = completedListContainer.querySelectorAll("li");
+  const pendingTasks = pendingListContainer.querySelectorAll("li");
+  const pendingEmptyMessage = document.getElementById("empty-message");
+
+  // Gérer le message pour la liste des tâches en attente
+  if (!pendingTasks.length) {
+    pendingEmptyMessage.style.display = "block";
+  } else {
+    pendingEmptyMessage.style.display = "none";
+  }
+
+  // Gérer la visibilité de la section des tâches terminées
+  if (!completedTasks.length) {
+    // Cacher la section si aucune tâche terminée
+    completedTasksSection.style.display = "none";
+  } else {
+    // Afficher la section s'il y a des tâches terminées
+    completedTasksSection.style.display = "block";
   }
 }
 
-// Afficher un message initial si la liste est vide
-showEmptyMessage();
+// Afficher les messages initiaux si les listes sont vides
+showEmptyMessages();
 
 // Ajouter un événement au clic sur le bouton d'ajout d'item
 addItemBtn.addEventListener("click", addListItem);

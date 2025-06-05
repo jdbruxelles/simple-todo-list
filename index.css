@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   padding: 0; /* Marge intérieur */
   margin: 0; /* Marge extérieur */
@@ -5,98 +9,206 @@ body {
 }
 
 header, footer {
-  background-color: #00ffff; /* Couleur de fond */
+  background-color: #0097a7; /* Couleur de fond */
+  color: white; /* Coule de texte */
   text-align: center; /* Alignement du texte */
   padding: 16px;
 }
 
+header h1 {
+  margin: 0;
+}
+
 main {
   margin: auto; /* Centrer le cadre */
-  margin-bottom: 53px; /* Marge extérieure en bas du cadre */
+  margin-bottom: 145px !important; /* Marge extérieure en bas du cadre */
   max-width: 700px; /* Largeur maximale du cadre */
 }
 
 footer {
-  font-size: 16px; /* Taille du texte */
-  position: fixed; /* Position fixe sur l'écran */
-  left: 0; /* Position à gauche */
-  right: 0; /* Position à droite */
-  bottom: 0; /* Position en bas */
+  background-color: #0097a7; /* Couleur de fond du footer */
+  text-align: center; /* Centrer le texte */
+  padding: 20px; /* Espacement interne */
+  position: fixed; /* Position fixe */
+  bottom: 0; /* En bas de la page */
+  width: 100%; /* Largeur complète */
+
+  a {
+    color: white;  /* Couleur du lien */
+    text-decoration: none; /* Pas de soulignement */
+
+    &:hover {
+      text-decoration: underline; /* Soulignement au survol */
+    }
+  }
 }
 
-#todo-list, .actions-container {
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 1px;
+  accent-color: #0097a7;
+  cursor: pointer;
+}
+
+#pending-tasks,
+#completed-tasks {
   background-color: #f1f1f1;
-  border-radius: 16px; /* Bordure arrondie */
+  border-radius: 16px;
   font-size: 17px;
   padding: 16px;
-  margin: 16px;
+  margin: 16px 0;
+
+  li {
+    list-style-type: none; /* Pas de puces */
+    padding: 6px;
+    margin: 2px 0;
+    border-radius: 8px;
+    transition: all 0.5s ease;
+
+    /* Effet zébré - lignes alternées */
+    &:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:hover {
+      background-color: rgba(0, 151, 167, 0.2) !important;
+      transform: translateX(3px);
+    }
+
+    &.checked .value {
+      text-decoration: line-through; /* Texte barré */
+      font-style: italic; /* Texte en italique */
+      color: #cd2121;
+    }
+
+    span {
+      margin-left: 5px; /* Marge à gauche */
+
+      &.value {
+        position: relative;
+        top: -5px;
+      }
+    }
+
+    .remove-item {
+      float: right; /* Alignement à droite */
+      cursor: pointer; /* Curseur de souris */
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: 15px;
+      position: relative;
+      top: 6px;
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #cacaca;
+        color: #cd2121;
+      }
+    }
+
+    &:hover .remove-item {
+      visibility: visible;
+    }
+
+    & > p {
+      text-align: center;
+    }
+  }
 }
 
-#todo-list li {
-  list-style-type: none; /* Pas de puces */
-  padding: 4px;
+#completed-tasks {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  display: none; /* Cacher par défaut */
 }
 
-#todo-list li:not(:last-child) {
-  border-bottom: 1px solid #ccc; /* Bordure en bas */
-}
-
-#todo-list li.checked .value {
-  text-decoration: line-through; /* Texte barré */
-  font-style: italic; /* Texte en italique */
-  color: #cd2121; /* Couleur du texte (rouge) */
-}
-
-#todo-list li span {
-  margin-left: 5px; /* Marge à gauche */
-}
-
-#todo-list li .remove-item {
-  float: right; /* Alignement à droite */
-  cursor: pointer; /* Curseur de souris */
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-size: 15px;
-}
-
-#todo-list li .remove-item:hover {
-  background-color: #cacaca;
-  color: #cd2121;
-}
-
-#todo-list > p {
-  text-align: center;
-}
-
-.actions-container input {
-  width: calc(100% - 24px); /* Largeur du champ de saisie */
-  display: block; /* Afficher sur une ligne */
-  padding: 8px 12px;
-  border-radius: 10px;
+/* Titres des sections */
+.section-title {
+  font-weight: bold;
+  font-size: 18px;
   margin-bottom: 12px;
+  color: #333;
+  border-bottom: 2px solid #0097a7;
+  padding-bottom: 4px;
+}
+
+.actions-container {
+  background-color: #f1f1f1;
+  border-radius: 16px;
+  border: 2px solid #e0e0e0;
+  font-size: 17px;
+  padding: 16px;
+  margin: 16px 0;
+  position: fixed;
+  bottom: 50px;
+  max-width: 668px;
+  width: calc(100% - 32px);
+
+  &:has(.todo-input:focus) {
+    border-color: #0097a7;
+  }
+}
+
+/* Messages quand les listes sont vides */
+#empty-message {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Styles pour l'input et le bouton */
+.todo-input {
+  width: calc(100% - 160px); /* Largeur de l'input */
+  padding: 8px; /* Espacement interne */
+  font-size: 16px; /* Taille de la police */
+  background: transparent;
+  border: 0;
+  border-radius: 8px; /* Bordure arrondie */
+  outline: none;
+}
+
+.add-item {
+  width: 150px; /* Largeur du bouton */
+  padding: 8px; /* Espacement interne */
+  font-size: 16px; /* Taille de la police */
+  background-color: #0097a7; /* Couleur de fond */
+  color: white;
   border: none; /* Pas de bordure */
+  border-radius: 8px; /* Bordure arrondie */
+  cursor: pointer; /* Curseur de souris */
+  margin-left: 5px; /* Marge à gauche */
+
+  &:disabled {
+    color: #888;
+    background-color: #ccc; /* Couleur de fond désactivé */
+    cursor: not-allowed; /* Curseur désactivé */
+  }
 }
 
-a:focus,
-.actions-container input:focus,
-.actions-container button:focus {
-  outline: 2px solid #00ffff; /* Couleur du contour */
-}
+/* Responsive design */
+@media (max-width: 768px) {
+  main {
+    margin: 0 16px;
+    margin-bottom: 190px !important;
+  }
 
-.actions-container button {
-  background-color: #2196F3;
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 10px;
-  color: #fff;
-  border: none;
-}
+  .todo-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 
-.actions-container button:disabled {
-  opacity: 0.5; /* Opacité à 50% */
+  .add-item {
+    width: 100%;
+    margin-left: 0;
+  }
 }
-
-/*
-  En savoir plus sur le CSS :
-  https://www.w3schools.com/css/default.asp
-*/

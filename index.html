@@ -11,11 +11,22 @@
     <h1>Liste de tâches</h1>
   </header>
   <main>
-    <ul id="todo-list"></ul>
+    <div id="pending-tasks">
+      <div class="section-title">📋 Tâches à faire</div>
+      <div id="empty-message"  style="display:none">
+        Aucune tâche en attente.
+      </div>
+      <ul id="pending-list"></ul>
+    </div>
+    <div id="completed-tasks">
+      <div class="section-title">✅ Tâches terminées</div>
+      <ul id="completed-list"></ul>
+    </div>
     <div class="actions-container">
-      <input type="text" class="todo-input" placeholder="Ex: Acheter du pain"/>
+      <input type="text" class="todo-input" id="todo-input"
+        placeholder="Ex: Acheter du pain"/>
       <button class="add-item" disabled>
-        + Ajouter une tâche
+        + Créer
       </button>
     </div>
   </main>
